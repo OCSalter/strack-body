@@ -7,7 +7,6 @@ import com.strack.live.http.cors.Cors
 import com.strack.live.http.postgres.Postgres
 import org.http4s.ember.server.EmberServerBuilder
 
-
 object Application extends IOApp.Simple {
   private def makeServer = for {
     postgres <- Postgres.makePostgres
