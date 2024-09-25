@@ -65,6 +65,25 @@ CREATE TABLE players (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE event_types (
+    id uuid NOT NULL,
+    event_name character varying NOT NULL
+)
+
+CREATE targeted_events (
+    id uuid NOT NULL,
+    type_id uuid NOT NULL references event_types(id),
+    reference_id uuid NOT NULL,
+    target_id uuid NOT NULL
+)
+
+CREATE general_events (
+    id uuid NOT NULL,
+    type_id uuid NOT NULL references event_types(id),
+    reference_id uuid NOT NULL,
+    event_value SMALLINT NOT NULL
+)
+
 
         ---     /ENTRIES/     ---
 INSERT INTO games (id, name)
