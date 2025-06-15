@@ -67,23 +67,52 @@ CREATE TABLE players (
 
 CREATE TABLE event_types (
     id uuid NOT NULL,
+    PRIMARY KEY(id),
     event_name character varying NOT NULL
-)
+);
 
-CREATE targeted_events (
-    id uuid NOT NULL,
+CREATE TABLE targeted_events (
+    id uuid primary key default gen_random_uuid (),
     type_id uuid NOT NULL references event_types(id),
     reference_id uuid NOT NULL,
     target_id uuid NOT NULL
-)
+);
 
-CREATE general_events (
-    id uuid NOT NULL,
+CREATE TABLE general_events (
+    id uuid primary key default gen_random_uuid (),
     type_id uuid NOT NULL references event_types(id),
     reference_id uuid NOT NULL,
     event_value SMALLINT NOT NULL
-)
+);
 
+CREATE TABLE resume_entry (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    title_text character varying NOT NULL,
+    group_text character varying NOT NULL,
+    location_text character varying NOT NULL,
+    date_text character varying NOT NULL
+);
+
+CREATE TABLE resume_list_item (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    entry_id uuid NOT NULL references resume_entry(id),
+    item_text character varying NOT NULL
+);
+
+CREATE TABLE paragraphs (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    header_text character varying NOT NULL,
+    body_text character varying NOT NULL
+);
+
+INSERT INTO paragraphs(id, header_text, body_text)
+VALUES('7c2ba3f6-1f70-42ed-ad2b-0e9e5768ba74','heeyyyy ! :) how are you ?','Welcome to my website ! Hope you like it here');
+INSERT INTO paragraphs(id, header_text, body_text)
+VALUES('2606cab3-5bb3-4b6b-95f1-12414f4d35c6','About Me','Hey, my name is Owen Salter. Im a passionate and driven software engineer.');
+COMMIT;
 
         ---     /ENTRIES/     ---
 INSERT INTO games (id, name)
@@ -103,6 +132,15 @@ INSERT INTO modes (id, name, num_teams, num_players)
 VALUES ('27b90427-c1d3-4c36-a13d-a37a91bf016d', 'Search and Destroy', 2, 12);
 COMMIT;
 
+INSERT INTO event_types (id, event_name)
+VALUES('415d609e-4552-43e3-a0fc-6661a52a9c5f','Kill');
+INSERT INTO event_types (id, event_name)
+VALUES('c21375cf-6a31-41e9-8c72-e8bb21831ef3','Capture');
+INSERT INTO event_types (id, event_name)
+VALUES('5a70cd02-3837-41a3-9dc4-4d9b8d02e1cf','Round Place');
+INSERT INTO event_types (id, event_name)
+VALUES('9c8a59af-31f3-464d-8d9f-2af3db0e759f','Match Place');
+COMMIT;
 
 INSERT INTO users (id, user_name)
 VALUES ('cb6e8fa5-050e-4f07-a90a-8f60237c425e','Big Guy');
@@ -219,4 +257,12 @@ INSERT INTO players(id, user_id, team_id, match_id)
 VALUES('79fb4434-383e-4af8-9160-7fabc96786de','8e7de19a-25a1-4832-9c9c-b396abc2c60b','3eb6289c-b46b-4e79-9dd9-51998325504c','b16058b2-66bb-4b56-818b-c64e9af38340');
 INSERT INTO players(id, user_id, team_id, match_id)
 VALUES('98286fe7-37df-4c57-bfb7-47ef0b5b754b','9953b579-53d3-4bf1-8097-c54ba62509ab','3eb6289c-b46b-4e79-9dd9-51998325504c','b16058b2-66bb-4b56-818b-c64e9af38340');
+COMMIT;
+
+INSERT INTO general_events (id, type_id, reference_id, event_value)
+VALUES('77d3bbf6-8f0d-4101-9ae7-abfe8a930fd5', '9c8a59af-31f3-464d-8d9f-2af3db0e759f','4b08ebad-195f-4b1a-9a18-c9c7d72c6c13', 1);
+INSERT INTO general_events (id, type_id, reference_id, event_value)
+VALUES('9a9ee291-7c0e-49ea-bf80-3b968f161cc9', '9c8a59af-31f3-464d-8d9f-2af3db0e759f','cbee2cfb-5ea4-4fdc-95be-e05e1be73988', 1);
+INSERT INTO general_events (id, type_id, reference_id, event_value)
+VALUES('a30d8711-dff8-4a54-a2cd-f5fe55c071ae', '9c8a59af-31f3-464d-8d9f-2af3db0e759f','657437dd-8321-42b8-bb73-d4a18bfb167a', 0);
 COMMIT;

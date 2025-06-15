@@ -21,8 +21,16 @@ class PlayerTagRoutes[F[_]: Concurrent] private(playerTags: PlayerTags[F]) exten
       playerTags.all().flatMap(m => Ok(m))
   }
 
+  private val fromMatch: HttpRoutes[F] = HttpRoutes.of[F] {
+    case GET -> Root / "fromMatch" / UUIDVar(matchId) =>
+      for {
+        u <- playerTags.getFromMatchId(matchId)
+        resp <- Ok(u)
+      } yield resp
+  }
+
   val routes: HttpRoutes[F] = Router(
-    prefix -> (getAllRoute)
+    prefix -> (getAllRoute <+> fromMatch)
   )
 }
 

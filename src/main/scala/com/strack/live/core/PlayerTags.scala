@@ -25,13 +25,15 @@ class PlayerTagsLive[F[_]: Concurrent] private(transactor: Transactor[F]) extend
        """.update.withUniqueGeneratedKeys[UUID]("id").transact(transactor)
   override def all(): F[List[PlayerTag]] =
     sql"""
-         SELECT p.id, p.user_id, p.team_id, p.match_id
+         SELECT p.id, p.user_id, u.user_name, p.team_id, p.match_id
          FROM players p
+         JOIN users u on p.user_id = u.id
        """.query[PlayerTag].stream.compile.toList.transact(transactor)
   override def getFromMatchId(matchId: UUID): F[List[PlayerTag]] =
     sql"""
-      SELECT p.id, p.user_id, p.team_id, p.match_id
+      SELECT p.id, p.user_id, u.user_name, p.team_id, p.match_id
       FROM players p
+      JOIN users u on p.user_id = u.id
       WHERE p.match_id = $matchId
        """.query[PlayerTag].stream.compile.toList.transact(transactor)
 }

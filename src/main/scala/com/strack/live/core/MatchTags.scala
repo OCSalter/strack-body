@@ -14,6 +14,7 @@ trait MatchTags[F[_]] {
   def all(): F[List[MatchTag]]
   def getFromGroupId(g: UUID): F[List[MatchTag]]
   def getMatchPreviewFromGroupId(id: UUID): F[List[MatchPreview]]
+  def getMatchPreviewFromUserId(id: UUID): F[List[MatchPreview]]
 }
 
 case class MatchTagInput(groupId: UUID, modeId: UUID)
@@ -48,6 +49,18 @@ class MatchTagsLive[F[_]: Concurrent] private(transactor: Transactor[F]) extends
       WHERE m.group_id = $id
       GROUP BY (m.id, mo.name)
        """.query[MatchPreview].stream.compile.toList.transact(transactor)
+
+
+  override def getMatchPreviewFromUserId(id: UUID): F[List[MatchPreview]] =
+    sql"""
+      SELECT m.id, mo.name, array_agg(t.id)
+      FROM matches m
+      JOIN teams t on m.id = t.match_id
+      JOIN modes mo on m.mode_id = mo.id
+      JOIN players p on m.id = p.match_id
+      WHERE p.user_id = $id
+      GROUP BY (m.id, mo.name)
+    """.query[MatchPreview].stream.compile.toList.transact(transactor)
 }
 
 object MatchTagsLive {

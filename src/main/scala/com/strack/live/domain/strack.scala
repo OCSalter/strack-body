@@ -7,7 +7,7 @@ object strack {
 
   case class MatchPreview(id: UUID, modeName: String, teamIdList: List[UUID])
 
-  case class PlayerTag(id: UUID, userId: UUID, teamId: UUID, matchId: UUID)
+  case class PlayerTag(id: UUID, userId: UUID, userName: String, teamId: UUID, matchId: UUID)
 
   case class TeamTag(id: UUID, matchId: UUID)
 
@@ -15,8 +15,7 @@ object strack {
 
   case class GroupTag(id: UUID, name: String)
 
-  object MatchTag {
+  case class Stat(id: UUID, typeId: UUID, referenceId: UUID, value: Int)
 
-  }
-
+  case class Paragraph(id: UUID, header: String, body: String)
 }

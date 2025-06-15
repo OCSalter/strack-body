@@ -55,8 +55,16 @@ class MatchTagRoutes[F[_]: Concurrent] private(matchTags: MatchTags[F]) extends 
       } yield resp
   }
 
+  private val getFromUserId: HttpRoutes[F] = HttpRoutes.of[F] {
+    case GET -> Root / "fromUser" / UUIDVar(userId) =>
+      for {
+        m <- matchTags.getMatchPreviewFromUserId(userId)
+        resp <- Ok(m)
+      } yield resp
+  }
+
   val routes: HttpRoutes[F] = Router(
-    prefix -> (createMatchRoute <+> getAllRoute <+> getFromGroupId <+> getPreviewFromGroupId)
+    prefix -> (createMatchRoute <+> getAllRoute <+> getFromGroupId <+> getPreviewFromGroupId <+> getFromUserId)
   )
 }
 
