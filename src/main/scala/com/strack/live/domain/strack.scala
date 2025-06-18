@@ -18,4 +18,8 @@ object strack {
   case class Stat(id: UUID, typeId: UUID, referenceId: UUID, value: Int)
 
   case class Paragraph(id: UUID, header: String, body: String)
+
+  case class ResumeHeader(id: UUID, title: String, group: String, location: String, date: String)
+
+  case class ResumeItem(id: UUID, headerId: UUID, text: String)
 }

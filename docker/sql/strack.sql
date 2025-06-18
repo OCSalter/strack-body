@@ -1,6 +1,65 @@
 CREATE DATABASE strack;
 \c strack;
 
+CREATE TABLE paragraphs (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    header_text character varying NOT NULL,
+    body_text character varying NOT NULL
+);
+
+INSERT INTO paragraphs(id, header_text, body_text)
+VALUES('7c2ba3f6-1f70-42ed-ad2b-0e9e5768ba74','heeyyyy ! :) how are you ?','Welcome to my website ! Hope you like it here');
+INSERT INTO paragraphs(id, header_text, body_text)
+VALUES('2606cab3-5bb3-4b6b-95f1-12414f4d35c6','About Me','Hey, my name is Owen Salter. Im a passionate and driven software engineer.');
+COMMIT;
+
+CREATE TABLE resume_entry (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    title_text character varying NOT NULL,
+    group_text character varying NOT NULL,
+    location_text character varying NOT NULL,
+    date_text character varying NOT NULL
+);
+
+INSERT INTO resume_entry(id, title_text, group_text, location_text, date_text)
+VALUES('537a99aa-1ecd-49f9-bd7c-039485247cbf','Front-End Dart Software Developer','Duang','Toronto, Ontario','Oct 2023 – Nov 2023');
+INSERT INTO resume_entry(id, title_text, group_text, location_text, date_text)
+VALUES('0239e567-7a89-4227-be6d-d50b73dfbd4b','Full-Stack Software Engineer','Garner Distributed Workflow','Toronto, Ontario','Sept 2022 – Feb 2023');
+INSERT INTO resume_entry(id, title_text, group_text, location_text, date_text)
+VALUES('94e6dcc7-ac38-432e-9c3b-684470909f79','Research Intern','Kepstrum','Vaughan, Ontario','May 2022 – Aug 2022');
+COMMIT;
+
+CREATE TABLE resume_list_item (
+    id uuid NOT NULL,
+    PRIMARY KEY(id),
+    entry_id uuid NOT NULL references resume_entry(id),
+    item_text character varying NOT NULL
+);
+
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('724fe17d-21ee-4cf5-8622-4c6389fd561f','537a99aa-1ecd-49f9-bd7c-039485247cbf','Architected software systems including checkout price locking and payment, asynchronous communication with continuity, and maintaining user cart in-between sessions, in collaboration with engineers and team lead');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('11bcd29e-197f-40ca-a6ec-9b8560373308','537a99aa-1ecd-49f9-bd7c-039485247cbf','Implemented scalable features and internal tools for an e-commerce web app using Flutter/ Dart, and SQL');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('cdaf6023-15b8-4e20-b935-46bf6d063170','537a99aa-1ecd-49f9-bd7c-039485247cbf','Spearheaded the integration of modern software design practices resulting in the removal of over 1,000 lines in the code-base, increasing code safety and readability');
+
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('b9a4145b-6787-420b-af7f-fcabcd773364','0239e567-7a89-4227-be6d-d50b73dfbd4b','Lead refactoring of anti-patterns in a JavaScript front end by introducing generic implementations of repeated features, removing repeated code in over 20 files and increase scalability');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('1bc4c8e1-31eb-409b-bbf5-3d3a75f7e887','0239e567-7a89-4227-be6d-d50b73dfbd4b','Implemented backend Postgres calls and asynchronous tasks for a SaaS system with functional programming and SOLID principles, using Scala and ZIO in an Agile environment');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('e6bfa653-1059-4f97-aebc-8305bb5b47d5','0239e567-7a89-4227-be6d-d50b73dfbd4b','Designed end-to-end Angular JS and Scala features following test-driven development workflows to ensure code maintainability using Karma, and Jasmine');
+
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('c9500894-4ed1-4214-93a7-3cb519d718aa','94e6dcc7-ac38-432e-9c3b-684470909f79','Designed tools for importing sensor readings to Kepstrum’s signal analysis software');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('8e465144-d0ae-432d-8ab0-3e882ec78751','94e6dcc7-ac38-432e-9c3b-684470909f79','Trained client engineers to use Kepstrum’s platform by creating educational content');
+INSERT INTO resume_list_item(id, entry_id, item_text)
+VALUES('a95739c2-bd24-49f0-b66a-8997a19bcf8d','94e6dcc7-ac38-432e-9c3b-684470909f79','Applied machine learning to novel physics-based calculations using PyTorch');
+COMMIT;
+
 CREATE TABLE games (
     id uuid NOT NULL,
     PRIMARY KEY (id),
@@ -85,34 +144,7 @@ CREATE TABLE general_events (
     event_value SMALLINT NOT NULL
 );
 
-CREATE TABLE resume_entry (
-    id uuid NOT NULL,
-    PRIMARY KEY(id),
-    title_text character varying NOT NULL,
-    group_text character varying NOT NULL,
-    location_text character varying NOT NULL,
-    date_text character varying NOT NULL
-);
 
-CREATE TABLE resume_list_item (
-    id uuid NOT NULL,
-    PRIMARY KEY(id),
-    entry_id uuid NOT NULL references resume_entry(id),
-    item_text character varying NOT NULL
-);
-
-CREATE TABLE paragraphs (
-    id uuid NOT NULL,
-    PRIMARY KEY(id),
-    header_text character varying NOT NULL,
-    body_text character varying NOT NULL
-);
-
-INSERT INTO paragraphs(id, header_text, body_text)
-VALUES('7c2ba3f6-1f70-42ed-ad2b-0e9e5768ba74','heeyyyy ! :) how are you ?','Welcome to my website ! Hope you like it here');
-INSERT INTO paragraphs(id, header_text, body_text)
-VALUES('2606cab3-5bb3-4b6b-95f1-12414f4d35c6','About Me','Hey, my name is Owen Salter. Im a passionate and driven software engineer.');
-COMMIT;
 
         ---     /ENTRIES/     ---
 INSERT INTO games (id, name)
