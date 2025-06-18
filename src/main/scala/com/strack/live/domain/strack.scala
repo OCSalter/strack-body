@@ -22,4 +22,6 @@ object strack {
   case class ResumeHeader(id: UUID, title: String, group: String, location: String, date: String)
 
   case class ResumeItem(id: UUID, headerId: UUID, text: String)
+
+  case class ResumeFull(header: ResumeHeader, items: List[ResumeItem])
 }
