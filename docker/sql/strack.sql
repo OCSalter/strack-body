@@ -9,7 +9,7 @@ CREATE TABLE paragraphs (
 );
 
 INSERT INTO paragraphs(id, header_text, body_text)
-VALUES('7c2ba3f6-1f70-42ed-ad2b-0e9e5768ba74','heeyyyy ! :) how are you ?','Welcome to my website ! Hope you like it here');
+VALUES('7c2ba3f6-1f70-42ed-ad2b-0e9e5768ba74','Hey! Hows it going?','Welcome to my website! Hope you like the button you just clicked.');
 INSERT INTO paragraphs(id, header_text, body_text)
 VALUES('2606cab3-5bb3-4b6b-95f1-12414f4d35c6','About Me','Hey, my name is Owen Salter. Im a passionate and driven software engineer.');
 COMMIT;
